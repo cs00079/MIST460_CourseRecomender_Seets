@@ -123,6 +123,7 @@ CREATE TABLE Section (
     CONSTRAINT CK_Section_Sem CHECK (SectionSemester IN (N'Spring',N'Summer',N'Fall',N'Winter')),
     CONSTRAINT CK_Section_Seats CHECK (RemainingOpenings >= 0),
     CONSTRAINT CK_CourseOffering_Avg CHECK (SectionAverageRating >= 0 AND SectionAverageRating <= 5)
+    CONSTRAINT UK_Section_CRN UNIQUE (CRN, SectionSemester, SectionYear)
 );
 
 GO
@@ -151,6 +152,8 @@ create table Registration (
         constraint CK_Registration_Sem CHECK (RegistrationSemester IN (N'Spring',N'Summer',N'Fall',N'Winter')),
     RegistrationYear int not null
         constraint DF_Registration_Year DEFAULT (YEAR(getdate()))
+        CONSTRAINT uk_registration UNIQUE(StudentID, RegistrationSemester, RegistrationYear)
+        
 );
 
 GO
