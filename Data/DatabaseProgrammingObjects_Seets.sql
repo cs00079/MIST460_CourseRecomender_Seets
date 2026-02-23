@@ -14,8 +14,8 @@ select
     S.RemainingOpenings,
     I.FirstName + ' ' + I.LastName AS InstructorName
 from Section S  
-join Course C on S.CourseID = C.CourseID
-join Instructor I on S.InstructorID = I.InstructorID
+inner join Course C on S.CourseID = C.CourseID
+inner join Instructor I on S.InstructorID = I.InstructorID
 where S.SectionSemester = N'Spring'
 and S.SectionYear = 2026
 and C.SubjectCode = 'MIST'
@@ -27,8 +27,8 @@ select
     P.SubjectCode + ' ' + P.CourseNumber AS Prerequisite,
     CP.MinGradeRequired
 from CoursePrerequisite CP
-join Course C on CP.CourseID = C.CourseID
-join Course P on CP.PrerequisiteID = P.CourseID
+inner join Course C on CP.CourseID = C.CourseID
+inner join Course P on CP.PrerequisiteID = P.CourseID
 where C.SubjectCode = 'MIST'
 and C.CourseNumber = '460'
 
