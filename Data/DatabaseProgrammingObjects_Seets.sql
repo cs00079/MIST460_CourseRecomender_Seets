@@ -22,7 +22,15 @@ and C.SubjectCode = 'MIST'
 and C.CourseNumber = '460'
 
 --what are the prerequisites for a specific course(optional entry)
-
+select
+    C.SubjectCode + ' ' + C.CourseNumber AS Course,
+    P.SubjectCode + ' ' + P.CourseNumber AS Prerequisite,
+    CP.MinGradeRequired
+from CoursePrerequisite CP
+join Course C on CP.CourseID = C.CourseID
+join Course P on CP.PrerequisiteID = P.CourseID
+where C.SubjectCode = 'MIST'
+and C.CourseNumber = '460'
 
 --has a specific student met the prerequisites for a specific course
 
