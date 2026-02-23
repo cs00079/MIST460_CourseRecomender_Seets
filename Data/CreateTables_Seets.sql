@@ -123,7 +123,6 @@ CREATE TABLE Section (
     CONSTRAINT CK_Section_Sem CHECK (SectionSemester IN (N'Spring',N'Summer',N'Fall',N'Winter')),
     CONSTRAINT CK_Section_Seats CHECK (RemainingOpenings >= 0),
     CONSTRAINT CK_CourseOffering_Avg CHECK (SectionAverageRating >= 0 AND SectionAverageRating <= 5)
-    CONSTRAINT UK_Section_CRN UNIQUE (CRN, SectionSemester, SectionYear)
 );
 
 GO
@@ -133,9 +132,9 @@ create table CoursePrerequisite (
         CONSTRAINT PK_CoursePrerequisite PRIMARY KEY,
     CourseID int not null
         CONSTRAINT FK_CP_Course FOREIGN KEY (CourseID) REFERENCES Course(CourseID),-- ON DELETE CASCADE,
-    PrerequisiteCourseID int not null
-        CONSTRAINT FK_CP_PrerequisiteCourse FOREIGN KEY (PrerequisiteCourseID) REFERENCES Course(CourseID),-- ON DELETE CASCADE,
-    constraint UK_CoursePrerequisite UNIQUE(CourseID, PrerequisiteCourseID),
+    PrerequisiteID int not null
+        CONSTRAINT FK_CP_PrerequisiteCourse FOREIGN KEY (PrerequisiteID) REFERENCES Course(CourseID),-- ON DELETE CASCADE,
+    constraint UK_CoursePrerequisite UNIQUE(CourseID, PrerequisiteID),
     MinGradeRequired nchar(2) not null
         constraint CK_CoursePrerequisite_Grade CHECK (MinGradeRequired IN (N'A', N'B', N'C', N'D'))  
 );
@@ -152,8 +151,6 @@ create table Registration (
         constraint CK_Registration_Sem CHECK (RegistrationSemester IN (N'Spring',N'Summer',N'Fall',N'Winter')),
     RegistrationYear int not null
         constraint DF_Registration_Year DEFAULT (YEAR(getdate()))
-        CONSTRAINT uk_registration UNIQUE(StudentID, RegistrationSemester, RegistrationYear)
-        
 );
 
 GO
@@ -169,7 +166,7 @@ create table RegistrationSection (
     EnrollmentStatus NVARCHAR(20) not null
         constraint CK_Enrollment_Status CHECK (EnrollmentStatus IN (N'Enrolled', N'Waitlisted', N'Dropped', N'Completed')),
     LetterGrade nchar(2) null
-        constraint CK_RegistrationSection_Grade CHECK (LetterGrade IN (N'A', N'B', N'C', N'D', N'F', N'W', null))
+        constraint CK_RegistrationSection_Grade CHECK (LetterGrade IN (N'A', N'B', N'C', N'D', N'F', N'W', null)),
+    LastUpdate datetime not null default getdate()
 );
-
 
