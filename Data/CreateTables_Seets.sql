@@ -48,7 +48,7 @@ CREATE TABLE Student (
     StudentID               INT 
         CONSTRAINT PK_Student PRIMARY KEY
         CONSTRAINT FK_Student_AppUser FOREIGN KEY (StudentID)
-        REFERENCES AppUser(AppUserID) ON DELETE CASCADE, --foreign key(delete / update -> cascade, restrict)
+        REFERENCES AppUser(AppUserID) -- ON DELETE CASCADE, --foreign key(delete / update -> cascade, restrict,set null)
     TotalCreditsCompleted   INT NOT NULL
         CONSTRAINT DF_Student_Credits DEFAULT (0)
         CONSTRAINT CK_Student_TCC CHECK (TotalCreditsCompleted >= 0),
