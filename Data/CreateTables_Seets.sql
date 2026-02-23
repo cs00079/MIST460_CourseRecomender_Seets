@@ -1,8 +1,12 @@
 use MIST460_RDB_Seets; 
 
 -- Order matters (Why?)
+
+IF OBJECT_ID('RegistrationSection') IS NOT NULL DROP TABLE RegistrationSection;
+IF OBJECT_ID('Registration') IS NOT NULL DROP TABLE Registration;
 IF OBJECT_ID('Section') IS NOT NULL DROP TABLE Section;
 IF OBJECT_ID('Instructor') IS NOT NULL DROP TABLE Instructor;
+if OBJECT_ID('CoursePrerequisite') IS NOT NULL DROP TABLE CoursePrerequisite;
 IF OBJECT_ID('Course')         IS NOT NULL DROP TABLE Course;
 IF OBJECT_ID('Major')         IS NOT NULL DROP TABLE Major;
 IF OBJECT_ID('Alum')           IS NOT NULL DROP TABLE Alum;
@@ -120,4 +124,49 @@ CREATE TABLE Section (
     CONSTRAINT CK_Section_Seats CHECK (RemainingOpenings >= 0),
     CONSTRAINT CK_CourseOffering_Avg CHECK (SectionAverageRating >= 0 AND SectionAverageRating <= 5)
 );
+
 GO
+
+create table CoursePrerequisite (
+    CoursePrerequisiteID int identity(1,1) not null
+        CONSTRAINT PK_CoursePrerequisite PRIMARY KEY,
+    CourseID int not null
+        CONSTRAINT FK_CP_Course FOREIGN KEY (CourseID) REFERENCES Course(CourseID),-- ON DELETE CASCADE,
+    PrerequisiteCourseID int not null
+        CONSTRAINT FK_CP_PrerequisiteCourse FOREIGN KEY (PrerequisiteCourseID) REFERENCES Course(CourseID),-- ON DELETE CASCADE,
+    constraint UK_CoursePrerequisite UNIQUE(CourseID, PrerequisiteCourseID),
+    MinGradeRequired nchar(2) not null
+        constraint CK_CoursePrerequisite_Grade CHECK (MinGradeRequired IN (N'A', N'B', N'C', N'D'))  
+);
+
+GO
+
+create table Registration (
+    RegistrationID int identity(1,1) not null
+        constraint PK_Registration primary key,
+    StudentID int not null
+        constraint FK_Registration_Student foreign key(StudentID) references Student(StudentID) on delete cascade,
+    RegistrationDate datetime not null default getdate(),
+    RegistrationSemester nvarchar(12) not null
+        constraint CK_Registration_Sem CHECK (RegistrationSemester IN (N'Spring',N'Summer',N'Fall',N'Winter')),
+    RegistrationYear int not null
+        constraint DF_Registration_Year DEFAULT (YEAR(getdate()))
+);
+
+GO
+
+create table RegistrationSection (
+    RegistrationSectionID int identity(1,1) not null
+        constraint PK_RegistrationSection primary key,
+    RegistrationID int not null
+        constraint FK_RS_Registration foreign key(RegistrationID) references Registration(RegistrationID) on delete cascade,
+    SectionID int not null
+        constraint FK_RS_Section foreign key(SectionID) references Section(SectionID),
+    constraint UK_RegistrationSection UNIQUE(RegistrationID, SectionID),
+    EnrollmentStatus NVARCHAR(20) not null
+        constraint CK_Enrollment_Status CHECK (EnrollmentStatus IN (N'Enrolled', N'Waitlisted', N'Dropped', N'Completed')),
+    LetterGrade nchar(2) null
+        constraint CK_RegistrationSection_Grade CHECK (LetterGrade IN (N'A', N'B', N'C', N'D', N'F', N'W', null))
+);
+
+
