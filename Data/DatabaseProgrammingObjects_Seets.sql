@@ -2,6 +2,7 @@ use MIST460_RDB_Seets
 
 GO
 --what are the sections of a specific course offered this semester spring 2026
+
 select
     C.SubjectCode, 
     C.CourseNumber, 
@@ -32,7 +33,7 @@ inner join Course P on CP.PrerequisiteID = P.CourseID
 where C.SubjectCode = 'MIST'
 and C.CourseNumber = '460'
 
---has a specific student met the prerequisites for a specific course
+--Has specific student completed the prerequisites for a specific course a specific course
 
 
 
