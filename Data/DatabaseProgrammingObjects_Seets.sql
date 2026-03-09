@@ -72,21 +72,28 @@ END;
 -- 2. what are the prerequisites for a specific course(optional entry)
 GO
 
-declare @subjectCode NVARCHAR(10);
-declare @courseNumber NVARCHAR(10);
+create or alter procedure GetCoursePrerequisites
+(
+    @subjectCode NVARCHAR(30) = null,
+    @courseNumber NVARCHAR(30)
+)
 
-set @subjectCode = 'MIST';
-set @courseNumber = '460';
+AS BEGIN
+    IF(@subjectCode IS NUL and @CourseNumber IS NOT NULL)
+    BEGIN
+        RAISEERROR('Both @SubjectCode and @CourseNumber must be provided together or both should be null', 16, 1);
+        RETURN;
+    END;
+    SELECT 
+        prereq.Title, prereqSubjectCode, prereq.CourseNumber, CP.MinGradeRequired
+            FROM CoursePrerequisite CP
+        join Course maincourse on CP.CourseID = MainCourse.CourseID
+        Join Coures prereq on CP.PrerequisiteCourseID = prereq.CourseID
+        where maincourse.SubjectCode = IsNull(@subjectCode, maincourse.SubjectCode
+        and maincourse.CourseNumber = @courseNumber)
+    END;
 
-select
-    C.SubjectCode + ' ' + C.CourseNumber AS Course,
-    P.SubjectCode + ' ' + P.CourseNumber AS Prerequisite,
-    CP.MinGradeRequired
-from CoursePrerequisite CP
-inner join Course C on CP.CourseID = C.CourseID
-inner join Course P on CP.PrerequisiteID = P.CourseID
-where C.SubjectCode = @SubjectCode 
-and C.CourseNumber = @CourseNumber;
+--EXEC GetCoursePrerequisites @subjectCode = 'MIST', @courseNumber = '460';
 
 
 --select * from fnGetCrousePrerequisites('MIST', '460');
@@ -155,6 +162,9 @@ select * from fnGetCrousePrerequisites('MIST', '460') as Prerequisites
 join fnGetStudentCourseHistory(1) as CourseHistory
 on Prerequisites.SubjectCode = CourseHistory.SubjectCode
 and Prerequisites.CourseNumber = CourseHistory.CourseNumber
+
+-- Understand concepts: SP, Functions (Scalar, Table-valued) -> modularity, reusability, encapsulation.
+-- Use to solve a problem
 
 
 --Trigger -> automatic execution in response to certain events (e.g., insert, update, delete) on a table.
