@@ -89,6 +89,8 @@ where C.SubjectCode = @SubjectCode
 and C.CourseNumber = @CourseNumber;
 
 
+--select * from fnGetCrousePrerequisites('MIST', '460');
+
 
 -- 3. Has specific student completed the prerequisites for a specific course a specific course
 
