@@ -2,6 +2,10 @@ use MIST460_RDB_Seets
 
 GO
 --what are the sections of a specific course offered this semester spring 2026
+Declare @semester NVARCHAR(20) = N'Spring'
+Declare @year INT = 2026
+Declare @subjectCode NVARCHAR(10) = 'MIST'
+Declare @courseNumber NVARCHAR(10) = '460'
 
 select
     C.SubjectCode, 
@@ -23,6 +27,9 @@ and C.SubjectCode = 'MIST'
 and C.CourseNumber = '460'
 
 --what are the prerequisites for a specific course(optional entry)
+declare @subjectCode NVARCHAR(10) = 'MIST'
+declare @courseNumber NVARCHAR(10) = '460'
+
 select
     C.SubjectCode + ' ' + C.CourseNumber AS Course,
     P.SubjectCode + ' ' + P.CourseNumber AS Prerequisite,
