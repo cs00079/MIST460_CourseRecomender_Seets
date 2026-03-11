@@ -330,5 +330,60 @@ GO
 go
 
 
+--1. Create a stored procedure to register a student (procRegisterStudent)
+GO
+
+Create or alter procedure dbo.procRegisterStudent
+(
+    @FirstName nvarchar(50),
+    @LastName nvarchar(50),
+    @Email nvarchar(100),
+    @RegistrationSemester nvarchar(12) = NULL,
+    @RegistrationYear int = null
+)
+AS
+BEGIN
+    DECLARE @StudentID int;
 
 
+    exec dbo.procGetStudentID
+        @FirstName = @FirstName,
+        @LastName = @LastName,
+        @Email = @Email,
+        @StudentID = @StudentID OUTPUT;
+
+    if @StudentID is null
+    begin
+        RAISERROR('Student not found with the provided information.', 16, 1);
+        return;
+    end;
+
+    if @RegistrationSemester is null
+        set @RegistrationSemester = dbo.fnGetSemesterFromMonth();
+    
+    if @RegistrationYear is null
+        set @RegistrationYear = year(getdate());
+
+    insert into Registration (StudentID, RegistrationSemester, RegistrationYear)
+    values (@StudentID, @RegistrationSemester, @RegistrationYear);
+
+END
+GO
+
+
+
+--2. Insert Registration record for student 3 spring 2026
+
+
+
+exec dbo.procRegisterStudent
+    @FirstName = 'Emily',
+    @LastName = 'Johnson',
+    @Email = 'emily.johnson@example.com'
+    @registrationSemester = 'Spring',
+    @registrationYear = 2026;
+
+
+
+--3. Enroll student in a section of MIST 460 (procEnrollStudentInSection)
+exec procEnrollStudentInSection @RegistrationID = 4, @SectionID = 1; -- this should decrease the RemainingOpenings for SectionID = 1 by 1
