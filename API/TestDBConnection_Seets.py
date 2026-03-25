@@ -25,10 +25,36 @@ def test_db_connection():
 
     # Test 2: Connection returns a pyopdbc. Connection object
 
-    conn = get_dbconnection()
+    conn = get_db_connection()
 
     assert isinstance(conn, pyodbc.Connection), "Expected pyodbc.Connection"
 
     print("✅ Connection object returned")
 
     
+
+
+    # Test 3: Connection is usuable
+
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT 1")
+
+    result = cursor.fetchone()
+
+    assert result[0] == 1, "Expected query to return 1"
+
+    print("✅ Connection is live and queryable")
+    
+    
+    
+    conn.close() 
+
+    print("✅ Connection closed successfully")
+
+    print("\n🎉 All tests passed!")
+
+
+if __name__ == "__main__":
+
+    test_db_connection()
