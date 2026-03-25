@@ -379,7 +379,7 @@ GO
 exec dbo.procRegisterStudent
     @FirstName = 'Emily',
     @LastName = 'Johnson',
-    @Email = 'emily.johnson@example.com'
+    @Email = 'emily.johnson@example.com',
     @RegistrationSemester = 'Spring',
     @RegistrationYear = 2026;
 
