@@ -380,8 +380,8 @@ exec dbo.procRegisterStudent
     @FirstName = 'Emily',
     @LastName = 'Johnson',
     @Email = 'emily.johnson@example.com'
-    @registrationSemester = 'Spring',
-    @registrationYear = 2026;
+    @RegistrationSemester = 'Spring',
+    @RegistrationYear = 2026;
 
 
 
