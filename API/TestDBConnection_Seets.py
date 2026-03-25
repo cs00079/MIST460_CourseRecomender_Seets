@@ -1,60 +1,46 @@
+from pathlib import Path
 from get_db_connection import get_db_connection
-
 import os
-
 import pyodbc
-
 from dotenv import load_dotenv
 
-load_dotenv()
+env_path = Path(__file__).resolve().parent / ".env"
+print(f"Using env file: {env_path}")
+
+load_dotenv(dotenv_path=env_path)
+
 
 def test_db_connection():
 
-    # Test 1: check env vars are loaded
+    required_vars = [
+        "DB_SERVER",
+        "DB_NAME",
+        "DB_USER",
+        "DB_PASSWORD",
+        "DB_DRIVER"
+    ]
 
-    required_vars = ['DB_SERVER', 'DB_NAME', 'DB_USER', 'DB_PASSWORD']
-    
-    missing = [v for v in required_vars if v not in os.environ(v)]
-
-    assert not missing, f'Missing env vars: {missing}'
+    missing = [v for v in required_vars if not os.getenv(v)]
 
     assert not missing, f"Missing env vars: {missing}"
-
     print("✅ Env vars loaded")
 
-
-    # Test 2: Connection returns a pyopdbc. Connection object
-
     conn = get_db_connection()
-
-    assert isinstance(conn, pyodbc.Connection), "Expected pyodbc.Connection"
-
+    assert isinstance(conn, pyodbc.Connection), "Expected a pyodbc.Connection"
     print("✅ Connection object returned")
 
-    
-
-
-    # Test 3: Connection is usuable
-
     cursor = conn.cursor()
-
     cursor.execute("SELECT 1")
-
     result = cursor.fetchone()
 
-    assert result[0] == 1, "Expected query to return 1"
-
+    assert result is not None, "Query returned no results"
+    assert result[0] == 1, "Expected query result of 1"
     print("✅ Connection is live and queryable")
-    
-    
-    
-    conn.close() 
 
-    print("✅ Connection closed successfully")
-
+    conn.close()
+    print("✅ Connection closed cleanly")
     print("\n🎉 All tests passed!")
 
 
 if __name__ == "__main__":
-
     test_db_connection()
