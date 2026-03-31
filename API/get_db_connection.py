@@ -1,30 +1,16 @@
 import pyodbc
 
-import os
-
-from dotenv import load_dotenv
-
-load_dotenv()
-
-
+import pyodbc
 
 def get_db_connection():
-
-
-    server = os.getenv('DB_SERVER')
-
-    database = os.getenv('DB_NAME')
-
-    user = os.getenv('DB_USER')
-
-    password = os.getenv('DB_PASSWORD')
-
-    driver = os.getenv('DB_DRIVER')
-
-
-
-    connection_string = f"DRIVER={driver};SERVER=tcp:{server},1433;DATABASE={database};UID={user};PWD={password};Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;"
-
-
-
+    connection_string = (
+        "DRIVER={ODBC Driver 17 for SQL Server};"
+        "SERVER=tcp:mist460-server-seets.database.windows.net,1433;"
+        "DATABASE=MIST460_RDB_Seets;"
+        "UID=APILogin;"
+        "PWD=MI$T460Instructor;"
+        "Encrypt=yes;"
+        "TrustServerCertificate=no;"
+        "Connection Timeout=30;"
+    )
     return pyodbc.connect(connection_string)
