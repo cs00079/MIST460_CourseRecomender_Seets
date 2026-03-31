@@ -10,8 +10,6 @@ def validate_user(
     rows = cursor.fetchall()
     conn.close()
 
-    #Convert rows to list of dictionaries
-
     results = [
         {
             "AppUserID": row.AppUserID,
