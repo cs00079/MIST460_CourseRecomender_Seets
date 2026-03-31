@@ -16,5 +16,5 @@ with st.sidebar:
 
     )
 
-    if api_end_point == "Get Course Sections for Specified Course":
-        get_course_sections_for_specified_course_subject_code = st.text_input("
+    if api_end_point == "Get Course sections for Prerequisites":
+        get_course_prerequisites_ui()

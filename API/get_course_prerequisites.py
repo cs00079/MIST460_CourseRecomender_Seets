@@ -6,11 +6,11 @@ def get_course_prerequisites(
 ):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("{CALL procGetCoursePrerequisites(?, ?)}", (subject_code, course_number))
+    cursor.execute("{CALL dbo.procGetCoursePrerequisites(?, ?)}", (subject_code, course_number))
     rows = cursor.fetchall()
     conn.close()
 
-    #Convert rows to list of dictionaries
+    
 
     results = [
         {

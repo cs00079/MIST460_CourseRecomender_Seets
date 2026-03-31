@@ -64,12 +64,12 @@ create or alter procedure procGetCourseSectionsForSpecifiedCourse
 AS
 begin
     select
-        C.SubjectCode, 
-        C.CourseNumber, 
-        C.Title, 
-        S.SectionID, 
-        S.CRN, 
-        S.SectionNumber, 
+        Course.SubjectCode, 
+        Course.CourseNumber, 
+        Course.Title, 
+        Section.SectionID, 
+        Section.CRN, 
+        Section.SectionNumber, 
         S.SectionSemester, 
         S.SectionYear, 
         S.RemainingOpenings,
@@ -387,3 +387,4 @@ exec dbo.procRegisterStudent
 
 --3. Enroll student in a section of MIST 460 (procEnrollStudentInSection)
 exec procEnrollStudentInSection @RegistrationID = 4, @SectionID = 1; -- this should decrease the RemainingOpenings for SectionID = 1 by 1
+
