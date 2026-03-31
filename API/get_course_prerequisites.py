@@ -1,4 +1,4 @@
-from get_db_connectionget_db_connection import get_db_connection
+from API.get_db_connectionget_db_connection import get_db_connection
 
 def get_course_prerequisites(
     subject_code: str = None,
@@ -6,7 +6,7 @@ def get_course_prerequisites(
 ):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("{CALL procGetCoursePrerequisites(?, ?)}", (subject_code, course_number))
+    cursor.execute("{CALL dbo.procGetCoursePrerequisites(?, ?)}", (subject_code, course_number))
     rows = cursor.fetchall()
     conn.close()
     
