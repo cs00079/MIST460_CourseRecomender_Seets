@@ -64,12 +64,12 @@ create or alter procedure procGetCourseSectionsForSpecifiedCourse
 AS
 begin
     select
-        Course.SubjectCode, 
-        Course.CourseNumber, 
-        Course.Title, 
-        Section.SectionID, 
-        Section.CRN, 
-        Section.SectionNumber, 
+        C.SubjectCode, 
+        C.CourseNumber, 
+        C.Title, 
+        S.SectionID, 
+        S.CRN, 
+        S.SectionNumber, 
         S.SectionSemester, 
         S.SectionYear, 
         S.RemainingOpenings,
