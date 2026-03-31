@@ -1,4 +1,4 @@
-from API.get_db_connectionget_db_connection import get_db_connection
+from API.get_db_connection import get_db_connection
 
 def get_course_prerequisites(
     subject_code: str = None,

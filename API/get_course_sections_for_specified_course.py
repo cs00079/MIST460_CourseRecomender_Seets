@@ -1,4 +1,4 @@
-from API.get_db_connectionget_db_connection import get_db_connection
+from API.get_db_connection import get_db_connection
 def get_course_sections_for_specified_course(subject_code: str = None,course_number: str = None):
     conn = get_db_connection()
     cursor = conn.cursor()
