@@ -781,3 +781,18 @@ exec dbo.procRegisterStudent
 --3. Enroll student in a section of MIST 460 (procEnrollStudentInSection)
 exec procEnrollStudentInSection @RegistrationID = 4, @SectionID = 1; -- this should decrease the RemainingOpenings for SectionID = 1 by 1
 
+create or alter procedure procValidateUser
+(@username nvarchar(320), @password nvarchar(100))
+as
+begin
+	select AppUserID 'AppUserID', 
+    Firstname + ' ' + Lastname as FullName
+	from AppUser
+	where Email = @username and
+		PasswordHash = CONVERT(VARBINARY(64), @password, 1)
+end;
+
+/*
+execute procValidateUser
+@username = 'mjordan@wvu.edu', 
+@password = '0x01';

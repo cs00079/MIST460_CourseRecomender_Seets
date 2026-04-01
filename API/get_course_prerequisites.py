@@ -10,18 +10,14 @@ def get_course_prerequisites(
     rows = cursor.fetchall()
     conn.close()
     
-
-    #convert rows to list of dicts
     results = [
         {
-            "MainCourseTitle": row.MainCourseTitle,
-            "MainSubjectCode": row.MainSubjectCode,
-            "MainCourseNumber": row.MainCourseNumber,
-            "PrerequisiteTitle": row.PrerequisiteTitle,
-            "PrerequisiteSubjectCode": row.PrerequisiteSubjectCode,
-            "PrerequisiteCourseNumber": row.PrerequisiteCourseNumber,
+            "Title": row.Title,
+            "SubjectCode": row.SubjectCode,
+            "CourseNumber": row.CourseNumber,
             "MinGradeRequired": row.MinGradeRequired
         }
         for row in rows
     ]
+
     return {"data": results}
