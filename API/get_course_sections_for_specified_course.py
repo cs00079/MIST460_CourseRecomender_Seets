@@ -1,11 +1,16 @@
 from API.get_db_connection import get_db_connection
-def get_course_sections_for_specified_course(subject_code: str = None,course_number: str = None):
+
+from typing import Optional
+
+def get_course_sections_for_specified_course(subject_code: Optional[str] = None,course_number: Optional[str] = None):
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("{CALL dbo.procGetCourseSectionsForSpecifiedCourse(?, ?)}", (subject_code, course_number))
     rows = cursor.fetchall()
     conn.close()
 
+
+    #convert rows to list of dictionaries
     results = [
         {
             "SubjectCode": row.SubjectCode,

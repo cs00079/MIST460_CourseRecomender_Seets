@@ -1,20 +1,27 @@
-from API.get_db_connection import get_db_connection
+from get_db_connection import get_db_connection
+
+from typing import Optional
 
 def get_course_prerequisites(
-    subject_code: str = None,
-    course_number: str = None
+    subject_code: Optional[str] = None,
+    course_number: Optional[str] = None,
 ):
     conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("{CALL dbo.procGetCoursePrerequisites(?, ?)}", (subject_code, course_number))
-    rows = cursor.fetchall()
-    conn.close()
-    
+    cursor = conn.cursor() 
+    cursor.execute("{CALL procGetCoursePrerequisites (?, ?)}", (subject_code, course_number)) 
+    rows = cursor.fetchall() 
+    conn.close() 
+        
+        #convert rows to list of dictionaries
+
     results = [
         {
-            "Title": row.Title,
-            "SubjectCode": row.SubjectCode,
-            "CourseNumber": row.CourseNumber,
+            "MainCourseTitle": row.MainCourseTitle,
+            "MainCourseSubjectCode": row.MainCourseSubjectCode,
+            "MainCourseNumber": row.MainCourseNumber,
+            "PrerequisiteTitle": row.PrerequisiteTitle,
+            "PrerequisiteSubjectCode": row.PrerequisiteSubjectCode,
+            "PrerequisiteCourseNumber": row.PrerequisiteCourseNumber,
             "MinGradeRequired": row.MinGradeRequired
         }
         for row in rows

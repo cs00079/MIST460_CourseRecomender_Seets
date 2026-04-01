@@ -16,6 +16,7 @@ def has_student_met_prerequisites_for_course(
             "PrerequisiteSubjectCode": row.PrerequisiteSubjectCode,
             "PrerequisiteCourseNumber": row.PrerequisiteCourseNumber,
             "MinimumGradeRequired": row.MinimumGradeRequired,
+            "StudentGrade": row.StudentGrade,
         }
         for row in rows
     ]
