@@ -20,7 +20,7 @@ def get_db_connection():
 
 
 
-    connection_string = f"DRIVER={driver};SERVER={server}; DATABASE={database};UID={user};PWD={password};Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;"
+    connection_string = f"DRIVER={{driver}};SERVER={server}; DATABASE={database};UID={user};PWD={password};Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;"
 
                 
 

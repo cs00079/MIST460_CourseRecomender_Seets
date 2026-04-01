@@ -10,8 +10,10 @@ def get_course_prerequisites_ui():
 
     if st.button("Fetch Course Prerequisites"):
         input_params = {}
+       
         if subject_code.strip():
             input_params["subject_code"] = subject_code.strip()
+       
         if course_number.strip():
             input_params["course_number"] = course_number.strip()
 

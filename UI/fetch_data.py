@@ -2,10 +2,11 @@ import streamlit as st
 import requests
 import pandas as pd
 
-FASTAPI_BASE_URL = "http://localhost:8000"  # Change this to your FastAPI server URL
+FASTAPI_BASE_URL = "http://127.0.0.1:8000"  # Change this to your FastAPI server URL
 
 def fetch_data(endpoint: str, input_params: dict, method: str = "GET") -> pd.DataFrame:
 
+   
     if method == "GET":
         response = requests.get(f"{FASTAPI_BASE_URL}/{endpoint}", params=input_params)
     
