@@ -1,3 +1,4 @@
+import pymssql
 from get_db_connection import get_db_connection
 
 def has_student_met_prerequisites_for_course(
