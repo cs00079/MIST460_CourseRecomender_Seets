@@ -1,1 +1,2 @@
-gunicorn -w 4 -k uvicorn.workers.UvicornWorker API.course_recommender_api:app
+#!/bin/bash
+uvicorn course_recommender_api:app --host 0.0.0.0 --port 8000
