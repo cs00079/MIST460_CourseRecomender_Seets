@@ -366,3 +366,20 @@ execute procValidateUser
 select AppUserID, Firstname, LastName, Email, PasswordHash
 from AppUser
 */
+
+select * from AppUser;
+
+exec dbo.procValidateUser @username = 'mjordan@wvu.edu', @password = '0x01';
+
+
+EXEC dbo.procValidateUser 
+    @username = 'mjordan@wvu.edu',
+    @password = '0x01';
+
+EXEC dbo.procValidateUser 
+    @username = 'slee@wvu.edu',
+    @password = '0x01';
+
+EXEC dbo.procValidateUser 
+    @username = 'akim@wvu.edu',
+    @password = '0x01';
