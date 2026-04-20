@@ -32,7 +32,7 @@ def validate_user_ui():
                 "App User ID: "
                 + str(df["AppUserID"].values[0])
                 + ", Full Name: "
-                + df["Fullname"].values[0]
+                + str(df.iloc[0, 1])
             )
             st.write(output_string)
             st.session_state.app_user_id = df["AppUserID"].values[0]
