@@ -8,7 +8,7 @@ def get_course_prerequisites(
     conn = get_db_connection()
     cursor = conn.cursor(as_dict=True)
     #cursor.execute("{CALL procGetCoursePrerequisites(?, ?)}", (subject_code, course_number))
-    cursor.callproc("procGetCoursePrerequisites", (subject_code, course_number))
+    cursor.execute("EXEC procGetCoursePrerequisites %s, %s", (subject_code, course_number))
     
     try:
         rows = cursor.fetchall()

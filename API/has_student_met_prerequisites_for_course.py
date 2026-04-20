@@ -8,7 +8,7 @@ def has_student_met_prerequisites_for_course(
 ):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("{CALL dbo.procHasStudentMetPrerequisitesForCourse(?, ?, ?)}", (student_id, subject_code, course_number))
+    cursor.execute("EXEC dbo.procHasStudentMetPrerequisitesForCourse %d, %s, %s", (student_id, subject_code, course_number))
     rows = cursor.fetchall()
     conn.close()
 
