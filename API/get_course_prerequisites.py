@@ -19,17 +19,6 @@ def get_course_prerequisites(
 
     #Convert rows to list of dictionaries
 
-    results = [
-        {
-            "MainCourseTitle": row["MainCourseTitle"],
-            "MainCourseSubjectCode": row["MainCourseSubjectCode"],
-            "MainCourseNumber": row["MainCourseNumber"],
-            "PrerequisiteTitle": row["PrerequisiteTitle"],
-            "PrerequisiteSubjectCode": row["PrerequisiteSubjectCode"],
-            "PrerequisiteCourseNumber": row["PrerequisiteCourseNumber"],
-            "MinGradeRequired": row["MinGradeRequired"]
-        }
-        for row in rows
-    ]
+    results = [dict(row) for row in rows]
 
     return {"data": results}
