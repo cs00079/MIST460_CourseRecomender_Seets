@@ -1,0 +1,1 @@
+from course_recommender_api import app
