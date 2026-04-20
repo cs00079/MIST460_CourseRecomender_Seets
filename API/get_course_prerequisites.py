@@ -7,7 +7,6 @@ def get_course_prerequisites(
 ):
     conn = get_db_connection()
     cursor = conn.cursor(as_dict=True)
-    #cursor.execute("{CALL procGetCoursePrerequisites(?, ?)}", (subject_code, course_number))
     cursor.execute("EXEC procGetCoursePrerequisites %s, %s", (subject_code, course_number))
     
     try:
@@ -17,8 +16,17 @@ def get_course_prerequisites(
 
     conn.close()
 
-    #Convert rows to list of dictionaries
-
-    results = [dict(row) for row in rows]
+    results = [
+        {
+            "MainCourseTitle": row["MainCourseTitle"],
+            "MainCourseSubjectCode": row["MainCourseSubjectCode"],
+            "MainCourseNumber": row["MainCourseNumber"],
+            "PrerequisiteTitle": row["PrerequisiteTitle"],
+            "PrerequisiteSubjectCode": row["PrerequisiteSubjectCode"],
+            "PrerequisiteCourseNumber": row["PrerequisiteCourseNumber"],
+            "MinGradeRequired": row["MinGradeRequired"]
+        }
+        for row in rows
+    ]
 
     return {"data": results}
