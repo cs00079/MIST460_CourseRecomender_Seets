@@ -1,3 +1,2 @@
-#!/bin/bash
-cd /home/site/wwwroot/API
-exec uvicorn course_recommender_api:app --host 0.0.0.0 --port 8000
+#!/bin/sh
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker course_recommender_api:app
