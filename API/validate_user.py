@@ -14,12 +14,6 @@ def validate_user(username: str, password: str):
 
     conn.close()
 
-    results = [
-        {
-            "AppUserID": row["AppUserID"],
-            "Fullname": row["Fullname"],
-        }
-        for row in rows
-    ]
+    results = [dict(row) for row in rows]
 
     return {"data": results}
