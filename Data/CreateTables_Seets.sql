@@ -124,6 +124,12 @@ CREATE TABLE Section (
     CONSTRAINT CK_CourseOffering_Avg CHECK (SectionAverageRating >= 0 AND SectionAverageRating <= 5)
 );
 
+
+
+
+
+
+
 GO
 
 create table CoursePrerequisite (
