@@ -28,6 +28,33 @@ IF OBJECT_ID('procHasStudentMetPrerequisitesForCourse') is NOT NULL
     DROP PROCEDURE procHasStudentMetPrerequisitesForCourse;
 
 
+GO
+
+create or alter procedure procGetAllCourses
+AS
+BEGIN
+    SELECT CourseID, CourseDescription
+    FROM Course;
+END;
+-- EXEC procGetAllCourses;
+
+
+GO
+
+create or alter procedure procInsertChunk
+(
+    @CourseChunk NVARCHAR(MAX),
+    @ChunkEmbedding VECTOR(1536),
+    @CourseID INT
+)
+AS
+BEGIN
+    INSERT INTO Chunks (CourseChunk, ChunkEmbedding, CourseID)
+    VALUES (@CourseChunk, @ChunkEmbedding, @CourseID);
+END;
+
+-- select * from Chunks;
+
 -- Need days / times for sections, Location
 
 GO
@@ -307,17 +334,6 @@ CREATE OR ALTER PROCEDURE procHasStudentMetPrerequisitesForCourse
 AS
 BEGIN
 
-/*
-    SELECT Prerequisites.SubjectCode, Prerequisites.CourseNumber, Prerequisites.MinGradeRequired,
-    History.Grade
-    FROM fnGetCoursePrerequisites(@SubjectCode, @CourseNumber) AS Prerequisites
-        left join fnGetStudentCourseHistory(@StudentID) AS History
-        ON Prerequisites.SubjectCode = History.SubjectCode
-        AND Prerequisites.CourseNumber = History.CourseNumber
-        AND dbo.fnGradePointsFromLetterGrade(History.Grade) 
-            >= dbo.fnGradePointsFromLetterGrade(Prerequisites.MinGradeRequired);
-*/
-
 -- Subqueries - IN, NOT IN, EXISTS, NOT EXISTS
 -- IN non-correlated subquery - returns all the prerequisites for the course
 -- EXIST correlated subquery - checks if there is a record in the student's course history that matches the prerequisite and has a grade that meets the minimum requirement
@@ -367,19 +383,5 @@ select AppUserID, Firstname, LastName, Email, PasswordHash
 from AppUser
 */
 
-select * from AppUser;
-
-exec dbo.procValidateUser @username = 'mjordan@wvu.edu', @password = '0x01';
-
-
-EXEC dbo.procValidateUser 
-    @username = 'mjordan@wvu.edu',
-    @password = '0x01';
-
-EXEC dbo.procValidateUser 
-    @username = 'slee@wvu.edu',
-    @password = '0x01';
-
-EXEC dbo.procValidateUser 
-    @username = 'akim@wvu.edu',
-    @password = '0x01';
+--- Logic for enrolling a student in a course section (Input -> Creating / Inserting; Updating -> Delete / Insert)
+-- Write down the steps you would take to enroll a student in a course section, including any checks 
