@@ -190,3 +190,7 @@ create table RegistrationSection (
         constraint CK_RegistrationSection_Grade CHECK (LetterGrade IN (N'A', N'B', N'C', N'D', N'F', N'W', null)),
     LastUpdate datetime not null default getdate()
 );
+
+
+
+

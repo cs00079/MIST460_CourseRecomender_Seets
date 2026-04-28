@@ -3,11 +3,7 @@ fastapi
 uvicorn[standard]
 python-dotenv
 pymssql
-#pyodbc
 langchain
-langchain-text-splitters
-openai
 langchain-openai
-pyodbc
-pprint
-datetime
+langchain-text-splitters
+langgraph
