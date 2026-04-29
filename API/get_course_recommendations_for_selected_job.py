@@ -18,7 +18,7 @@ def get_course_recommendations_for_selected_job(job_description: str) -> str:
     semester_value = find_current_semester()
     user_query = f"Based on the following job description, recommend relevant courses from our database offered in {semester_value} {year_value}: {job_description}"
 
-    embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
+    embedding_model = OpenAIEmbeddings(model="text-embedding-3-small", api_key=os.environ.get("OPENAI_API_KEY"))
     job_description_embedding = embedding_model.embed_query(job_description)
 
     pprint.pprint(job_description_embedding)
@@ -38,7 +38,7 @@ def get_course_recommendations_for_selected_job(job_description: str) -> str:
 
     pprint.pprint(semantic_results_for_context)
 
-    generative_model = ChatOpenAI(model="gpt-4o", temperature=0)
+    generative_model = ChatOpenAI(model="gpt-4o", temperature=0, api_key=os.environ.get("OPENAI_API_KEY"))
 
     prompt = ChatPromptTemplate.from_messages([
     (
