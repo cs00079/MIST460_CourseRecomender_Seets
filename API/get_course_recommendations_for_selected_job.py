@@ -3,10 +3,14 @@ from langchain_openai import OpenAIEmbeddings
 from get_db_connection import get_db_connection
 import json
 import pprint
+import os
+from dotenv import load_dotenv
 from find_current_semester import find_current_semester
 from format_context import format_context
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
+
+load_dotenv()
 
 def get_course_recommendations_for_selected_job(job_description: str) -> str:
 
