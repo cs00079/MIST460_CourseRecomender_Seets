@@ -1,7 +1,7 @@
 from datetime import datetime
 from pprint import pprint
 from langchain_openai import OpenAIEmbeddings
-from streamlit import json
+import json
 import pprint
 import json
 from API.get_db_connection import get_db_connection
