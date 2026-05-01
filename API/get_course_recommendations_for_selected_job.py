@@ -3,22 +3,22 @@ from langchain_openai import OpenAIEmbeddings
 from get_db_connection import get_db_connection
 import json
 import pprint
-import os
-from dotenv import load_dotenv
 from find_current_semester import find_current_semester
 from format_context import format_context
+
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
-
-load_dotenv()
 
 def get_course_recommendations_for_selected_job(job_description: str) -> str:
 
     year_value = datetime.now().year
-    semester_value = find_current_semester()
+    semester_value = find_current_semester() #in python instead of sql server
     user_query = f"Based on the following job description, recommend relevant courses from our database offered in {semester_value} {year_value}: {job_description}"
 
-    embedding_model = OpenAIEmbeddings(model="text-embedding-3-small", api_key=os.environ.get("OPENAI_API_KEY"))
+    #1. Use the openAI embeddings model to create an embedding for the job description
+    embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
+
+    # 2.Create embedding for the job description to run semantic search (vector search) in the database to find semantically similar courses
     job_description_embedding = embedding_model.embed_query(job_description)
 
     pprint.pprint(job_description_embedding)
@@ -38,7 +38,9 @@ def get_course_recommendations_for_selected_job(job_description: str) -> str:
 
     pprint.pprint(semantic_results_for_context)
 
-    generative_model = ChatOpenAI(model="gpt-4o", temperature=0, api_key=os.environ.get("OPENAI_API_KEY"))
+    #The second openAI model is a generative model.
+    #3. Use the generative model to generate a user-friendly response that explains why the recommended courses are relevant to the job description.
+    generative_model = ChatOpenAI(model="gpt-4o", temperature=0) #deterministic output since we want the same output for the same input every time
 
     prompt = ChatPromptTemplate.from_messages([
     (
@@ -88,3 +90,4 @@ def get_course_recommendations_for_selected_job(job_description: str) -> str:
         "course_count": course_count
     })
     return response
+

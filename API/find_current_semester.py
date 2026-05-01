@@ -1,4 +1,5 @@
 from datetime import datetime
+
 def find_current_semester() -> str:
     month = datetime.now().month
     if 1 <= month <= 5:

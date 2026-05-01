@@ -3,6 +3,9 @@ from get_course_sections_for_specified_course_ui import get_course_sections_for_
 from get_course_prerequisites_ui import get_course_prerequisites_ui
 from validate_user_ui import validate_user_ui
 from has_student_met_prerequisites_for_course_ui import has_student_met_prerequisites_for_course_ui
+from get_course_recommendations_for_selected_job_ui import get_course_recommendations_for_selected_job_ui
+
+
 
 if "app_user_id" not in st.session_state:
     st.session_state.app_user_id = None
