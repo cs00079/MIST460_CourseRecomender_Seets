@@ -1,33 +1,41 @@
 import streamlit as st
-import requests
+from fetch_data import fetch_data, fetch_text
 
-API_URL = "https://mist460-api-seets.azurewebsites.net/get_course_recommendations_for_selected_job/"
+def get_job_title(record):
+    return record['JobTitle']
 
 def get_course_recommendations_for_selected_job_ui():
-    st.title("Course Recommendations for a Job")
-    st.write("Paste a job description to get relevant courses from the catalog.")
+    st.title("Course Recommendations for Selected Job")
 
-    job_description = st.text_area(
-        "Job Description",
-        height=220,
-        placeholder="e.g. Data analyst requiring SQL, Python, and data visualization skills."
+    df = fetch_data("get_all_jobs/", {})
+
+    if df is None or df.empty:
+        st.error("Could not load jobs. Please try again later.")
+        return
+
+    selected_job = st.selectbox(
+        "Select a job",
+        options=df.to_dict(orient="records"),
+        format_func=get_job_title,
     )
 
-    if st.button("Recommend Courses"):
-        if not job_description or not job_description.strip():
-            st.warning("Please enter a job description.")
+    st.markdown(f"### You selected: **{selected_job['JobTitle']}**")
+
+    job_description = st.text_area(
+        "Job description (feel free to edit)",
+        value=selected_job['JobDescription'],
+        height=200,
+    )
+
+    if st.button("Get Course Recommendations"):
+        with st.spinner("Generating recommendations... please wait 10-20 seconds"):
+            response = fetch_text(
+                "get_course_recommendations_for_selected_job/",
+                {"job_description": job_description},
+            )
+        if response:
+            content = response.get("content", "")
+            st.subheader("Recommended Courses")
+            st.markdown(content, unsafe_allow_html=True)
         else:
-            try:
-                with st.spinner("Getting course recommendations..."):
-                    response = requests.get(
-                        API_URL,
-                        params={"job_description": job_description},
-                        timeout=120
-                    )
-                if response.status_code == 200:
-                    st.success("Recommendations received!")
-                    st.write(response.json())
-                else:
-                    st.error(f"Error {response.status_code}: {response.text}")
-            except Exception as e:
-                st.error(f"Failed to connect to API: {str(e)}")
+            st.info("No recommendations found for the selected job. Try another one!")
