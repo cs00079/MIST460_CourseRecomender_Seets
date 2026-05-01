@@ -27,4 +27,8 @@ def validate_user_endpoint(username: str, password: str):
 
 @app.get("/get_course_recommendations_for_selected_job/")
 def get_course_recommendations_for_selected_job_endpoint(job_description: str):
-    return get_course_recommendations_for_selected_job(job_description)
+    return get_course_recommendations_for_selected_job(job_description)@app.get("/get_all_jobs/")
+
+@app.get("/get_all_jobs/")
+def get_all_jobs_endpoint():
+    return get_all_jobs()
