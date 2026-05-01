@@ -34,8 +34,11 @@ def get_course_recommendations_for_selected_job_ui():
                 {"job_description": job_description},
             )
         if response:
-            content = response.get("content", "")
+            if isinstance(response, dict):
+                content = response.get("content", str(response))
+            else:
+                content = str(response)
             st.subheader("Recommended Courses")
             st.markdown(content, unsafe_allow_html=True)
         else:
-            st.info("No recommendations found for the selected job. Try another one!")
+            st.info("No recommendations found. Try another job description!")
