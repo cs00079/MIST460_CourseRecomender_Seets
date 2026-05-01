@@ -5,8 +5,6 @@ from validate_user_ui import validate_user_ui
 from has_student_met_prerequisites_for_course_ui import has_student_met_prerequisites_for_course_ui
 from get_course_recommendations_for_selected_job_ui import get_course_recommendations_for_selected_job_ui
 
-
-
 if "app_user_id" not in st.session_state:
     st.session_state.app_user_id = None
 
@@ -19,7 +17,8 @@ with st.sidebar:
             "Validate User",
             "Get Course Sections for Specified Course",
             "Get Course Prerequisites",
-            "Has Student Met Prerequisites for Course"
+            "Has Student Met Prerequisites for Course",
+            "Get Course Recommendations for Selected Job"
         ]
     )
 
@@ -35,3 +34,5 @@ elif api_end_point == "Has Student Met Prerequisites for Course":
         validate_user_ui()
     else:
         has_student_met_prerequisites_for_course_ui()
+elif api_end_point == "Get Course Recommendations for Selected Job":
+    get_course_recommendations_for_selected_job_ui()
